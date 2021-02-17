@@ -13,10 +13,10 @@
 #pragma once
 
 #include <list>
-#include <mutex>  // NOLINT
-#include <vector>
 #include <map>
+#include <mutex>  // NOLINT
 #include <unordered_map>
+#include <vector>
 #include "buffer/replacer.h"
 #include "common/config.h"
 
@@ -51,15 +51,16 @@ class LRUReplacer : public Replacer {
   void erase(frame_id_t frame_id);
 
  private:
-    struct ListNode {
-        frame_id_t key, val;
-        ListNode* nxt = nullptr, * pre = nullptr;
-        ListNode(int key_, int val_): key(key_), val(val_), nxt(nullptr), pre(nullptr) {}
-        ListNode(int key_): key(key_), val(0), nxt(nullptr), pre(nullptr) {}
-    };
-    ListNode* head, * tail;
-    std::unordered_map<frame_id_t, ListNode*> hash;
-    size_t capacity, size;
+  struct ListNode {
+    frame_id_t key, val;
+    ListNode *nxt = nullptr;
+    ListNode *pre = nullptr;
+    ListNode(int key_, int val_) : key(key_), val(val_) {}
+    explicit ListNode(int key_) : key(key_), val(0) {}
+  };
+  ListNode *head, *tail;
+  std::unordered_map<frame_id_t, ListNode *> hash;
+  size_t capacity, size;
   // TODO(student): implement me!
 };
 
